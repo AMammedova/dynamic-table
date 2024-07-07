@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex Table Layout</title>
+    <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td, .tg th {border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          overflow:hidden;padding:20px 10px;word-break:normal;width:150px;height:10px;}
+        .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+        .tg .tg-0lax{text-align:left;vertical-align:top}
+    </style>
+</head>
+<body>
+    <button onclick="createTable()">Generate Table</button>
+    <div id="table-container"></div>
+
+    <script>
+        const tableData = [
+            {
+                type: 'thead',
+                rows: [
+                    { cells: [{ content: '', colspan: 5, rowspan: 5, className: 'tg-0pky' }, { content: '', rowspan: 5 }, { content: '', colspan: 8, rowspan: 2 }, { content: '', colspan: 2, rowspan: 5 }, { content: '', colspan: 3, rowspan: 2 }, { content: '', colspan: 2, rowspan: 2 }] },
+                    { cells: [] },
+                    { cells: [{ content: '', colspan: 4 }, { content: '', colspan: 4 }, { content: '', rowspan: 3 }, { content: '', rowspan: 3 }, { content: '', rowspan: 3 }, { content: '', colspan: 2, rowspan: 3 }] },
+                    { cells: [{ content: '', colspan: 2 }, { content: '', colspan: 2, rowspan: 2 }, { content: '', colspan: 2, rowspan: 2 }, { content: '', colspan: 2, rowspan: 2 }] },
+                    { cells: [{ content: '', colspan: 2 }] }
+                ]
+            },
+            {
+                type: 'tbody',
+                rows: [
+                    { cells: [{ content: 'A', colspan: 5 }, { content: 'B' }, { content: '1', colspan: 2 }, { content: '2', colspan: 2 }, { content: '3', colspan: 2 }, { content: '4', colspan: 2 }, { content: '5', colspan: 2 }, { content: '5.1' }, { content: '5.2' }, { content: '6' }, { content: '7', colspan: 2 }] },
+                    { cells: [{ content: '', colspan: 2, rowspan: 2 }, { content: '', colspan: 3 }, { content: '' }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '' }, { content: '' }, { content: '' }, { content: '', colspan: 2 }] },
+                    { cells: [{ content: '', colspan: 3 }, { content: '' }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '' }, { content: '' }, { content: '' }, { content: '', colspan: 2 }] },
+                    { cells: [{ content: '', colspan: 5 }, { content: '' }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '' }, { content: '' }, { content: '' }, { content: '', colspan: 2 }] },
+                    { cells: [{ content: '', colspan: 2, rowspan: 5 }, { content: '', rowspan: 3 }, { content: '', colspan: 2 }, { content: '' }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '' }, { content: '' }, { content: '' }, { content: '', colspan: 2 }] },
+                    { cells: [{ content: '', colspan: 2 }, { content: '' }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '' }, { content: '' }, { content: '' }, { content: '', colspan: 2 }] },
+                    { cells: [{ content: '', colspan: 2 }, { content: '' }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '' }, { content: '' }, { content: '' }, { content: '', colspan: 2 }] },
+                    { cells: [{ content: '', colspan: 3 }, { content: '' }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '' }, { content: '' }, { content: '' }, { content: '', colspan: 2 }] },
+                    { cells: [{ content: '', colspan: 3 }, { content: '' }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '' }, { content: '' }, { content: '' }, { content: '', colspan: 2 }] },
+                    { cells: [{ content: '', colspan: 2 }, { content: '', colspan: 3 }, { content: '' }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '', colspan: 2 }, { content: '' }, { content: '' }, { content: '' }, { content: '', colspan: 2 }] }
+                ]
+            }
+        ];
+
+        function createTable() {
+            const tableContainer = document.getElementById('table-container');
+            const table = document.createElement('table');
+            table.className = 'tg';
+            
+            tableData.forEach(section => {
+                const secElement = document.createElement(section.type);
+                section.rows.forEach(rowData => {
+                    const row = document.createElement('tr');
+                    rowData.cells.forEach(cellData => {
+                        const cell = document.createElement(section.type === 'thead' ? 'th' : 'td');
+                        cell.colSpan = cellData.colspan || 1;
+                        cell.rowSpan = cellData.rowspan || 1;
+                        cell.className = cellData.className || 'tg-0lax';
+                        cell.textContent = cellData.content;
+                        row.appendChild(cell);
+                    });
+                    secElement.appendChild(row);
+                });
+                table.appendChild(secElement);
+            });
+            
+            tableContainer.innerHTML = ''; 
+            tableContainer.appendChild(table);
+        }
+    </script>
+</body>
+</html>
